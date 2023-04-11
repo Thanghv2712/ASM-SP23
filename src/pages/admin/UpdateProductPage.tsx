@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Form, Input , Upload } from 'antd';
+import { Button, Checkbox, Form, Input , Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { RcFile, UploadChangeParam } from 'antd/lib/upload/interface';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -46,7 +46,13 @@ const handleUpload = (file: RcFile) => {
 const handleRemove = () => {
   setImageUrl(undefined);
 };
+const onChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
 
+const onSearch = (value: string) => {
+  console.log('search:', value);
+};
 const { id } = useParams()
 // const navigate = useNavigate()
 // const { register, handleSubmit, reset } = useForm()
@@ -140,12 +146,36 @@ const setFields = () => {// hàm này để set lại giá trị cho các input
       <Input />
     </Form.Item>
     <Form.Item
-      label="category"
-      name="category"
-      rules={[{ required: true, message: 'Please input your category!' }]}
-    >
-      <Input />
-    </Form.Item>
+          label='Category'
+          name='category'
+          rules={[{ required: true, message: 'Vui Lòng Nhập Mô Tả' }]}
+        >
+           <Select
+    showSearch
+    style={{ width: 160 }}
+    placeholder="Select a person"
+    optionFilterProp="children"
+    onChange={onChange}
+    onSearch={onSearch}
+    filterOption={(input, option) =>
+      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+    }
+    options={[
+      {
+        value: 'Danh Muc A',
+        label: 'Danh Muc A',
+      },
+      {
+        value: 'Danh Muc B',
+        label: 'Danh Muc B',
+      },
+      {
+        value: 'Danh Muc C',
+        label: 'Danh Muc C',
+      },
+    ]}
+  />
+        </Form.Item>
 
 
 

@@ -102,11 +102,12 @@ const AddProductPage = (props: IProps) => {
 
         <Form.Item
           label='Mô Tả'
-          name='description'
+          name='desc'
           rules={[{ required: true, message: 'Vui Lòng Nhập Mô Tả' }]}
         >
           <Input.TextArea />
         </Form.Item>
+
         <Form.Item
           label='Category'
           name='category'

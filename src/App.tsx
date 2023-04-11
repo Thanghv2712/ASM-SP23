@@ -17,6 +17,8 @@ import ProductManagementPage from './pages/admin/ProductManagement'
 import AddProductPage from './pages/admin/AddProduct'
 import UpdateProductPage from './pages/admin/UpdateProductPage'
 import Signin from './pages/auth/Signin'
+import RegistrationForm from './pages/auth/SignUp'
+import SignIn from './pages/auth/Signin'
 
 
 function App() {
@@ -63,8 +65,8 @@ function App() {
       
 
         <Route path='auth'>
-        <Route index element={<SignUp/>}/>
-        <Route  path='signin' element={<Signin/>} />
+        <Route index element={<RegistrationForm/>}/>
+        <Route  path='signin' element={<SignIn/>} />
 
         </Route>
 

@@ -1,53 +1,61 @@
-import React , {useState} from 'react'
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 
-
-
-const SignUp = () => {
-    
-
-      const [name , setName] =useState("")
-      const [email , setEmail] =useState("")
-      const [password , setPassword] =useState("")
-      const navigate = useNavigate()
-      const handelSubmit = async ()=>{
-
-       
-          let item ={name , password , email }
-          // console.warn(item)
-         
-        let result =  await fetch("http://localhost:3000/Auth" ,{
-            method : "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(item),
-          })
-          
-          result = await result.json()
-          localStorage.setItem("user-info" , JSON.stringify(result));
-          navigate('/auth/signin');
-          
-      }
-      
-     
-  
-  return (
-    
-    <div>
-      <h1>Auth</h1>
-      <input type="text" onChange={(e) => setName(e.target.value)}  placeholder='name'/>
-      <br />
-      <input type="text" onChange={(e) => setEmail(e.target.value)} placeholder='email'/>
-      <br />
-      <input type="text"  onChange={(e) => setPassword(e.target.value)} placeholder='pass'/>
-      <br />
-      <button onClick={handelSubmit}>Sign UP</button>
-
-    </div>
-  )
+interface RegistrationData {
+  name: string;
+  email: string;
+  password: string;
 }
 
-export default SignUp
+const schema = yup.object().shape({
+  name: yup.string().required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(6).required(),
+});
+
+const RegistrationForm = () => {
+  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, formState: { errors } } = useForm<RegistrationData>({
+    resolver: yupResolver(schema),
+  });
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: RegistrationData) => {
+    setLoading(true);
+    try {
+      await axios.post('http://localhost:3000/auth', data);
+      alert('Đăng ký thành công!');
+      navigate('/auth/signin');
+    } catch (error) {
+      alert('Đăng ký thất bại!');
+    }
+    setLoading(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label htmlFor="name">Tên:</label>
+        <input id="name" type="text" {...register('name')} />
+        {errors.name && <span>{errors.name.message}</span>}
+      </div>
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input id="email" type="email" {...register('email')} />
+        {errors.email && <span>{errors.email.message}</span>}
+      </div>
+      <div>
+        <label htmlFor="password">Mật khẩu:</label>
+        <input id="password" type="password" {...register('password')} />
+        {errors.password && <span>{errors.password.message}</span>}
+      </div>
+      <button type="submit" disabled={loading}>Đăng ký</button>
+    </form>
+  );
+};
+
+export default RegistrationForm;

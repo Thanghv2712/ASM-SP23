@@ -83,7 +83,7 @@ const ProductManagementPage = (props: IProps) => {
                 <Space size="middle">
               <Button type="primary" style={{ backgroundColor: 'red' }} onClick={() => removeProduct(record.key)}>Remove</Button>
               
-                 <Button type="primary"><Link to={`/admin/products/${record.key}/update`}>Update</Link></Button>
+                 <Button type="primary"><Link to={`/admin/products/${record.id}/update`}>Update</Link></Button>
                 </Space>
                 
               ),
@@ -91,7 +91,7 @@ const ProductManagementPage = (props: IProps) => {
             },
           ];
           return (
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={data} pagination={{ pageSize: 3 }} />
             )
         
     
