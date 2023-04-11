@@ -11,10 +11,17 @@ interface IProps {
 }
 
 const ProductManagementPage = (props: IProps) => {
+
     // console.log(props)
     // return 
     const removeProduct = (id: number) => {
-      props.onRemove(id)
+      const result = confirm("người ae có muốn xoá không");
+      if (result == true) {
+        props.onRemove(id)
+      } else {
+        
+      }
+     
   }
     const data = props.product.map((item)=>{
         return  {

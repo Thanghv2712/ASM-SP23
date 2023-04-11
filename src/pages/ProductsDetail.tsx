@@ -79,7 +79,7 @@ const ProductsDetail = (props) => {
                 <td>{Product?.name}</td>
                 <td>{Product?.price}</td>
                 <td>{Product?.desc}</td>
-                <td> <img src={Product?.image} alt="" />
+                <td> <img src={Product?.image} alt="" style={{width : "60px"}}  />
                 </td>
                 <td>{Product?.category}</td>
               </tr>
