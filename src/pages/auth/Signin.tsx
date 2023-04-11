@@ -33,7 +33,7 @@ const Signin = () => {
     }
 
   return (
-    <div><div>
+    <div className='main'>
       <h1>sign In</h1>
       
       <input type="text" onChange={(e) => setEmail(e.target.value)} placeholder='email'/>
@@ -42,7 +42,7 @@ const Signin = () => {
       <br />
       <button onClick={handelSignIn}>Sign UP</button>
 
-    </div></div>
+    </div>
   )
 }
 

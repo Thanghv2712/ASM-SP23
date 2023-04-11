@@ -1,91 +1,42 @@
 import React, { useEffect, useState } from 'react'
-import { Space, Table, Tag } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import { Button } from 'antd/es/radio';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
+import { Breadcrumb, Button, Col, Rate, Row } from 'antd';
 
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 const ProductsDetail = (props) => {
-  const { id } = useParams()
-  console.log({id})
 
-  const [Product, SetProduct] = useState({})
+  const { id } = useParams()
+  const [product, setProduct] = useState({})
   useEffect(() => {
-      SetProduct(props.product.find(product => product.id == id))
+      setProduct(props.product.find(product => product.id == id))
   })
 
-  interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
-  }
-  
-  const columns: ColumnsType<DataType> = [
-    {
-      title: 'Product Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-    },
-    {
-      title: 'desc',
-      dataIndex: 'desc',
-      key: 'desc',
-    },
-    {
-      title: 'image',
-      dataIndex: 'image',
-      key: 'image',
-    },
-    {
-        title: 'Category',
-        dataIndex: 'category',
-        key: 'category',
-      },
-   
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Space size="middle">
-         <Button type="primary"><Link to={``}>Update</Link></Button>
-        </Space>
-      ),
-    },
-  ];
+  const [value, setValue] = useState(4);
   return (
-      <div>
-        <Table columns={columns}  />
-          <h1>Product Detail</h1>
-          <table border={1}> 
-            <thead>
-              <tr>
-    <th>Product Name</th>
-    <th>Price</th>
-    <th>DESc</th>
-    <th>image</th>
-    <th>CateGory</th>
-              </tr>
-   
-            </thead>
-            <tbody>
-              <tr>
-                <td>{Product?.name}</td>
-                <td>{Product?.price}</td>
-                <td>{Product?.desc}</td>
-                <td> <img src={Product?.image} alt="" style={{width : "60px"}}  />
-                </td>
-                <td>{Product?.category}</td>
-              </tr>
-            </tbody>
-          </table>
-      </div>
+    <div>
+    <Row style={{ padding: 50 }}>
+        <Col span={12}>
+            <Breadcrumb style={{ margin: '16px 0' }}>
+                <Breadcrumb.Item>Home</Breadcrumb.Item>
+                <Breadcrumb.Item>Products</Breadcrumb.Item>
+                <Breadcrumb.Item>{product?.name}</Breadcrumb.Item>
+            </Breadcrumb>
+            <img alt="example" src={product?.image} />
+        </Col>
+        <Col span={12}>
+            <h1>Tên sản phẩm: {product?.name}</h1>
+            <span>
+                <Rate tooltips={desc} onChange={setValue} value={value} />
+                {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''}
+            </span>
+            <div style={{ paddingBottom: 30, paddingTop: 30 }}>
+                <span>{product?.price}đ</span>
+            </div>
+            <p>{product?.desc}</p>
+            <Button type="primary">Mua sản phẩm</Button>
+        </Col>
+    </Row>
+</div>
   
   )
 }
